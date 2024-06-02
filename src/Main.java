@@ -1,5 +1,6 @@
 import be.uantwerpen.fti.ei.Platformer.Game;
 import Dependencies.GraphicsContext;
+import be.uantwerpen.fti.ei.Platformer.GameMenu;
 
 import java.io.IOException;
 
@@ -10,8 +11,9 @@ public class Main {
 
         GraphicsContext gr = new GraphicsContext() ; // here everything gets drawn in ig
 
-        Game game = new Game(gr);
-         game.MenuGame();
+        GameMenu menu = new GameMenu(gr) ;
+        menu.MenuGame();
+
 
     }
 }
