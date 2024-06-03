@@ -156,6 +156,8 @@ public class GameMode2 {
                 else if (keyInput == Input.Inputs.UP ) {
                     player.UpdateDirection(cos(dirArrow.getAngle() *3.1415/180));
                     bullets.add(new Bullet(player.getMovementComp() , grCtx));
+                }else if (keyInput == Input.Inputs.ENTER){
+                    return  0 ;
                 }
 
             }

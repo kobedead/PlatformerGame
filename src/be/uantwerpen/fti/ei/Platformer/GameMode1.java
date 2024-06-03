@@ -151,6 +151,9 @@ public class GameMode1 {
                     player.UpdateDirection(-1);
                 else if (direction == Input.Inputs.RIGHT)
                     player.UpdateDirection(1);
+                else if (direction == Input.Inputs.ENTER){
+                    return  0 ;
+                }
             }
             //run the logic of the game
             try {

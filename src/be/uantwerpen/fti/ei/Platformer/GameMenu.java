@@ -89,12 +89,15 @@ public class GameMenu {
                         else
                             menutype = 3;
                     } else if (direction == Input.Inputs.ENTER) {     //spce while on run -> start game
-                        if (menutype == 1) {
+                        if (menutype == 1) {        //enter while on play -> playchoose
                             GameChoose();
-                        } else if (menutype == 2) {//space while on score -> to scoreboard
+                            rendered = false ;
+                        } else if (menutype == 2) {//enter while on score -> to scoreboard
                             ScoreBoard();
-                        } else if (menutype == 3) { //space while on themes
+                            rendered = false ;
+                        } else if (menutype == 3) { //enter while on themes
                             Themes();
+                            rendered = false ;
                         }
                     }
                 }
@@ -164,15 +167,19 @@ public class GameMenu {
                     if (playType1){
                         GameMode1 gameMode1 = new GameMode1(grCtx , input) ;
                         playerScore =  gameMode1.RunGame();
-                        gameOver =true ;
+                        if (playerScore != 0){
+                            gameOver =true ;
+                        }
+
                         return;
                     }
                     else{
 
                         GameMode2 gameMode2 = new GameMode2(grCtx , input) ;
                         playerScore =  gameMode2.RunGame();
-
-                        gameOver =true ;
+                        if (playerScore != 0){
+                            gameOver =true ;
+                        }
                         return;
                     }
 
