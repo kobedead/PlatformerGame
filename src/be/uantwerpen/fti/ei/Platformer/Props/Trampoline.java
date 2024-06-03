@@ -44,23 +44,21 @@ public class Trampoline extends Props {
      * Checks what position it needs to have on the platform also.
      */
     @Override
-    public  void  Draw(){
+    public void Draw() {
 
         Graphics2D g2d = gr.getG2d();
 
 
-        if(positionOnPlat == 0){// zet trampline links op platform
+        if (positionOnPlat == 0) {// zet trampline links op platform
 
-            g2d.drawImage (gr.trampolineSprite, movementComp.getPosX() , -movementComp.getPosY()-height , null); //drawing y-axis is reverse (top left is 0,0)
-        }
-        else if(positionOnPlat == 1 ){//zet trampoline in midden van platform
+            g2d.drawImage(gr.trampolineSprite, movementComp.getPosX(), -movementComp.getPosY() - height, null); //drawing y-axis is reverse (top left is 0,0)
+        } else if (positionOnPlat == 1) {//zet trampoline in midden van platform
 
-            g2d.drawImage (gr.trampolineSprite, movementComp.getPosX() +gr.getPlatformWidth()/2-width/2 , -movementComp.getPosY()-height , null); //drawing y-axis is reverse (top left is 0,0)
+            g2d.drawImage(gr.trampolineSprite, movementComp.getPosX() + gr.getPlatformWidth() / 2 - width / 2, -movementComp.getPosY() - height, null); //drawing y-axis is reverse (top left is 0,0)
 
-        }
-        else{ // zet trampoline rechts van platform
+        } else { // zet trampoline rechts van platform
 
-            g2d.drawImage (gr.trampolineSprite, movementComp.getPosX() +gr.getPlatformWidth()-width  , -movementComp.getPosY()-height , null); //drawing y-axis is reverse (top left is 0,0)
+            g2d.drawImage(gr.trampolineSprite, movementComp.getPosX() + gr.getPlatformWidth() - width, -movementComp.getPosY() - height, null); //drawing y-axis is reverse (top left is 0,0)
 
         }
 
