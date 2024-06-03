@@ -17,11 +17,13 @@ public class Trampoline extends Props {
     /**
      * Constructor Trampoline
      * Sets basic parameters specific to trampoline.
-     * Also determins where on the pletform it will live.
-     * @param yea   MovementComponent of the pltform it is attached to
+     * Also determins where on the platform it will live.
+     * @param yea   MovementComponent of the pltaform it is attached to
      * @param gr    GraphicsContext used to draw
      */
     public Trampoline(MovementComp yea , GraphicsContext gr) {
+
+        id = 20 ;
 
         power = 150; //how high player will jump
 

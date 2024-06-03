@@ -134,7 +134,7 @@ public class GameMode2 {
         //draws platform in first frame
         DrawPlatforms();
         //draw player
-        player.Draw(false);
+        player.Draw(0);
 
         //draw string for info
         grCtx.getG2d().drawString("Press escape to start", grCtx.getScreenWidth() / 2 - 100, 100);
@@ -255,10 +255,10 @@ public class GameMode2 {
 
                     //for the jumping animation of the player
                     if (jumped > 0) {
-                        player.Draw(true);
+                        player.Draw(1);
                         jumped--;
                     } else {
-                        player.Draw(false);
+                        player.Draw(0);
                     }
 
                     if(playerLocked)dirArrow.Draw(); //so arrow gets drawn over the rest

@@ -18,6 +18,7 @@ public class GraphicsContext {
     private int playerWidth ;
     private int bulletsize ; //keep it rectangular
     private int trampolinesize ; //also rectangle
+    private int jetterSize;         //rect
     private int monster1Height;
     private int monster1Width;
 
@@ -56,6 +57,7 @@ public class GraphicsContext {
     public BufferedImage crackingPlatformSprite;
     public BufferedImage movingPlatformSprite;
     public BufferedImage trampolineSprite;
+    public BufferedImage jetterSprite ;
 
     public BufferedImage monster1Sprite;
 
@@ -176,6 +178,8 @@ public class GraphicsContext {
                 movingPlatformSprite = ImageIO.read(new File("Sources/Theme1/Platforms/MovingPlatform.png"));
 
                 trampolineSprite = ImageIO.read(new File("Sources/Theme1/Props/Trampline.png"));
+                jetterSprite = ImageIO.read(new File("Sources/Theme1/Props/BoostPlat.png"));
+
 
                 monster1Sprite = ImageIO.read(new File("Sources/Theme1/Enemies/Monster1.png"));
 
@@ -235,6 +239,9 @@ public class GraphicsContext {
             playerSprite = resizeImage(playerSprite, playerWidth*5, playerHeight*2);         //rezise the player sprite
             playerJumping = resizeImage(playerJumping, size*20, size*20);         //rezise the player sprite
 
+
+
+
             monster1Sprite = resizeImage(monster1Sprite , monster1Width , monster1Height);
 
             ground = resizeImage(staticPlatformSprite , screenWidth , playerHeight) ;
@@ -243,6 +250,7 @@ public class GraphicsContext {
             crackingPlatformSprite = resizeImage(crackingPlatformSprite , platformWidth , platformHeight);
             movingPlatformSprite = resizeImage(movingPlatformSprite , platformWidth , platformHeight);
 
+            jetterSprite = resizeImage(jetterSprite , jetterSize ,jetterSize) ;
             trampolineSprite = resizeImage(trampolineSprite , trampolinesize, trampolinesize);
             bulletSprite = resizeImage(bulletSprite , bulletsize , bulletsize);
 
@@ -267,6 +275,7 @@ public class GraphicsContext {
         platformHeight = size*10 ;
         platformWidth = size*21 ;
         trampolinesize = size *10 ;
+        jetterSize = size * 10 ;
         bulletsize= size *6 ;
         monster1Height = size*30 ;
         monster1Width = size*20 ;
@@ -340,6 +349,13 @@ public class GraphicsContext {
         this.trampolinesize = trampolinesize;
     }
 
+    public int getJetterSize() {
+        return jetterSize;
+    }
+
+    public void setJetterSize(int jetterSize) {
+        this.jetterSize = jetterSize;
+    }
 
     public int getMonster1Height() {
         return monster1Height;

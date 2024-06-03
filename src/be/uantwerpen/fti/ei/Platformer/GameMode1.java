@@ -10,6 +10,7 @@ import be.uantwerpen.fti.ei.Platformer.Platforms.CrackingPlatform;
 import be.uantwerpen.fti.ei.Platformer.Platforms.MovingPlatform;
 import be.uantwerpen.fti.ei.Platformer.Platforms.PlatformEntity;
 import be.uantwerpen.fti.ei.Platformer.Platforms.StaticPlatform;
+import be.uantwerpen.fti.ei.Platformer.Props.Jetter;
 import be.uantwerpen.fti.ei.Platformer.Props.Props;
 import be.uantwerpen.fti.ei.Platformer.Props.Trampoline;
 
@@ -36,8 +37,10 @@ public class GameMode1 {
 
 
 
-    private boolean jump ; //to check if jum is nessessary
+    private boolean jump ; //to check if jump is nessessary
     private int jumped = 0 ; //for jumping animation
+
+    private boolean jetteranimation = false ;
 
     private boolean propHit;    //for higher jump
 
@@ -121,7 +124,7 @@ public class GameMode1 {
         //draws platform in first frame
         DrawPlatforms();
         //draw player
-        player.Draw(false);
+        player.Draw(0);
 
         //draw string for info
         grCtx.getG2d().drawString("Press escape to start", grCtx.getScreenWidth() / 2 - 100, 100);
@@ -204,14 +207,24 @@ public class GameMode1 {
                     DrawBullets();
 
 
-                    //for the jumping animation of the player
-                    if (jumped > 0 ){
-                        player.Draw(true);
-                        jumped -- ;
+                    //for animations
+
+                    if (jetteranimation) {
+                        player.Draw(5);
+                        if (player.getMovementComp().getJumpCounter() < 5) {
+                            jetteranimation = false;
+                            jumped = 0;
+                        }
+                    }
+                    else if (jumped > 0) {
+                        player.Draw(1);
+                        jumped--;
+
                     }
                     else {
-                        player.Draw(false  );
+                        player.Draw(0);
                     }
+
 
                     //draws score
                     grCtx.getG2d().drawString(String.valueOf(player.getScore()), grCtx.getScreenWidth() / 2 - 10, 100);
@@ -400,6 +413,7 @@ public class GameMode1 {
 
             }
         }
+
         //horizontal moving
         else if (color <= 90) {
             platforms.add(new MovingPlatform(xp, yp, grCtx.getPlatformHeight(), grCtx.getPlatformWidth(), grCtx));
@@ -429,10 +443,12 @@ public class GameMode1 {
 
 
         }
-        //rocket or something more rare -> improvement
-        else if (color <= 108 && level > 3) {
 
 
+        //jetter (rocket)
+        else if (color <= 108 && level >3 ) {
+            platforms.add(new StaticPlatform(xp , yp , grCtx.getPlatformHeight() , grCtx.getPlatformWidth() , grCtx));
+            props.add(new Jetter(platforms.getLast().getMovementComp() , grCtx)) ;
             //safe
         } else
             platforms.add(new StaticPlatform(xp, yp, grCtx.getPlatformHeight(), grCtx.getPlatformWidth(), grCtx));
@@ -478,6 +494,13 @@ public class GameMode1 {
             if (prop.CollisionPropPlayer(player) && player.movementComp.getJumpCounter() < 0) {  ///falling onto prop
                 player.movementComp.setJumpCounter(prop.getPower());
                 propHit = true;
+                //if prop is getter -> animation
+                if (prop.getId() == 21){
+                    jetteranimation = true ;
+                }
+
+
+
                 return true;
 
             }

@@ -45,7 +45,7 @@ public class Player extends  Entity{
      * @param jumping : True if the player is jumping, for animation puposes
      * //could make the juming an int that decreases like in the Game for further, more advanced animations -> improvement.
      */
-    public  void Draw(boolean jumping){
+    public  void Draw(int animation ){
 
         Graphics2D g2d = gr.getG2d();
         int size = gr.getSize();
@@ -57,17 +57,36 @@ public class Player extends  Entity{
         }
         else {
 
-            if (!jumping) {
+
+            //regular  (left-right)
+             if (animation ==  0) {
                 if (animationDir == -1)
                     g2d.drawImage(gr.playerSprite.getSubimage(gr.getPlayerWidth(), 0, gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
                 else
                     g2d.drawImage(gr.playerSprite.getSubimage(0, 0, gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
-            } else {
+            }
+            //jumping
+             else if (animation == 1 ) {
                 if (animationDir == -1)
                     g2d.drawImage(gr.playerSprite.getSubimage(gr.getPlayerWidth(), gr.getPlayerHeight(), gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
                 else
                     g2d.drawImage(gr.playerSprite.getSubimage(0, gr.getPlayerHeight(), gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top lef
             }
+
+            //Jetter animation
+            else if (animation == 5){
+                 if (animationDir == -1)
+
+                     g2d.drawImage(gr.playerSprite.getSubimage(gr.getPlayerWidth()*2, gr.getPlayerHeight(), gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
+                 else
+
+
+                     g2d.drawImage(gr.playerSprite.getSubimage(gr.getPlayerWidth()*3, gr.getPlayerHeight(), gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
+
+
+
+             }
+
         }
     }
 
