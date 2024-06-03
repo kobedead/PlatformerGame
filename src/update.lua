@@ -27,16 +27,14 @@ function update(table)
     table["PosY"] = table["PosY"] + (table["JmpCount"]/Deler)
 
 
-    if table["dir"] == -1 then
+    if table["dir"] == 0 then
 
-        table["PosX"] = ((table["PosX"] + table["MaxX"] - SpeedOfSideways) % table["MaxX"])  -- moet btr
+        table["PosX"] = table["PosX"]
 
-    elseif table["dir"] == 1 then
-
-        table["PosX"] =  (table["PosX"] + table["MaxX"] + SpeedOfSideways) % table["MaxX"]
 
     else
-        table["PosX"] = table["PosX"]
+        table["PosX"] = ((table["PosX"] + table["MaxX"] +( SpeedOfSideways * table["dir"] )) % table["MaxX"])  -- moet btr
+
     end
 
 

@@ -14,6 +14,6 @@ public class Enemy extends Entity {
 
 
 
-public boolean Update(){return true;}
+public boolean Update(int lowDelDistance){return true;}
 
 }

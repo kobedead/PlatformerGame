@@ -1,4 +1,3 @@
-import be.uantwerpen.fti.ei.Platformer.Game;
 import Dependencies.GraphicsContext;
 import be.uantwerpen.fti.ei.Platformer.GameMenu;
 
@@ -10,6 +9,9 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         GraphicsContext gr = new GraphicsContext() ; // here everything gets drawn in ig
+
+
+
 
         GameMenu menu = new GameMenu(gr) ;
         menu.MenuGame();

@@ -6,6 +6,13 @@ import Dependencies.Input;
 import java.io.*;
 import java.util.ArrayList;
 
+
+/**
+ * Class GameMenu
+ * Houses all the logic for browsing in the menu's.
+ * If the player selects one of 2 gamemodes, the gamemode class
+ * will be created and the game will be started.
+ */
 public class GameMenu {
 
 
@@ -44,10 +51,10 @@ public class GameMenu {
     /**
      * Method MenuGame
      * Here the menu gets drawn, also the passing between selective screens is managed and drawn.
-     * the player can choose between play, scoreboard and themes.
+     * The player can choose between play, scoreboard and themes.
      * these get called as their own method.
      * to switch between options the left and right arrow keys are used.
-     * to select an option space is used
+     * to select an option enter is used
      * @throws IOException  inputExeption
      */
     public void MenuGame() throws IOException, InterruptedException {
@@ -83,11 +90,7 @@ public class GameMenu {
                             menutype = 3;
                     } else if (direction == Input.Inputs.ENTER) {     //spce while on run -> start game
                         if (menutype == 1) {
-
-                            Game game = new Game(grCtx , input);
-                            playerScore = game.RunGame();
-                            gameOver = true ;
-
+                            GameChoose();
                         } else if (menutype == 2) {//space while on score -> to scoreboard
                             ScoreBoard();
                         } else if (menutype == 3) { //space while on themes
@@ -125,6 +128,83 @@ public class GameMenu {
         }
     }
 
+
+    /**
+     * Method GameChoose
+     * Gets called from MenuGame.
+     * This method handels the choosing menu between gamemode 1 & 2.
+     * when one gets chosen it makes an object of the gamemode and inits the game.
+     * returns back to MenuGame with (gameover = true) if game is done.
+     *
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public void GameChoose() throws InterruptedException, IOException {
+
+
+        grCtx.getG2d().drawImage(grCtx.play1, 0, 0, null);    //draws background for gameover
+        grCtx.render();
+
+
+
+        boolean playType1 = true ;
+
+        while (true) {
+
+
+            if (input.inputAvailable()) {
+                Input.Inputs KeyInput = input.getInput();
+
+                if (KeyInput == Input.Inputs.LEFT || KeyInput == Input.Inputs.RIGHT) {
+
+                    playType1 = !playType1;
+                    rendered = false;
+                }
+                else if (KeyInput == Input.Inputs.ENTER){
+                    if (playType1){
+                        GameMode1 gameMode1 = new GameMode1(grCtx , input) ;
+                        playerScore =  gameMode1.RunGame();
+                        gameOver =true ;
+                        return;
+                    }
+                    else{
+
+                        GameMode2 gameMode2 = new GameMode2(grCtx , input) ;
+                        playerScore =  gameMode2.RunGame();
+
+                        gameOver =true ;
+                        return;
+                    }
+
+                }
+            }
+            if(rendered == false){
+                if (playType1){
+                    grCtx.getG2d().drawImage(grCtx.play1, 0, 0, null);    //draws background for gameover
+                }else{
+                    grCtx.getG2d().drawImage(grCtx.play2, 0, 0, null);    //draws background for gameover
+                }
+                grCtx.render();
+                rendered = true;
+
+            }
+
+
+
+
+
+
+
+
+            Thread.sleep(treadSleep);
+
+        }
+
+
+
+
+
+    }
 
 
     /**

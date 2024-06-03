@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
 public class Input {
-    public enum Inputs {LEFT, RIGHT, UP, DOWN, SPACE, NONE , ENTER , EEN , TWEE , DRIE , VIER , VIJF , ZES , ZEVEN , ACHT , NEGEN , NUL };
+    public enum Inputs {LEFT, RIGHT, UP, DOWN, SPACE, NONE , ENTER , EEN , TWEE , DRIE , VIER , VIJF , ZES , ZEVEN , ACHT , NEGEN , NUL , ESC };
     private LinkedList<Inputs> keyInputs;
 
 
@@ -53,6 +53,7 @@ public class Input {
                 case KeyEvent.VK_8: keyInputs.add(Inputs.ACHT); break;
                 case KeyEvent.VK_9: keyInputs.add(Inputs.NEGEN); break;
                 case KeyEvent.VK_0: keyInputs.add(Inputs.NUL); break;
+                case KeyEvent.VK_ESCAPE: keyInputs.add(Inputs.ESC); break;
 
 
             }

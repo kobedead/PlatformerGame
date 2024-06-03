@@ -40,8 +40,10 @@ public class MovingPlatform extends  PlatformEntity{
     }
 
 
-
-
+    /**
+     * Method UpdateMovX
+     * updates x position of the platform
+     */
     public void UpdateMovX(){
 
 

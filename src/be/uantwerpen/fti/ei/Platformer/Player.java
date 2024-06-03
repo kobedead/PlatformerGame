@@ -9,7 +9,7 @@ import Dependencies.Input;
 
 public class Player extends  Entity{
 
-    private Input.Inputs animationDir;
+    private int animationDir;
     private int score;
 
 
@@ -33,7 +33,7 @@ public class Player extends  Entity{
 
         this.gr = gr ;
 
-        animationDir = Input.Inputs.NONE;
+        animationDir = 0;
 
     }
 
@@ -50,7 +50,7 @@ public class Player extends  Entity{
         Graphics2D g2d = gr.getG2d();
         int size = gr.getSize();
 
-        if (animationDir == Input.Inputs.UP) {
+        if (animationDir == 500) {
 
             g2d.drawImage(gr.playerSprite.getSubimage(gr.getPlayerWidth()*3,0 , gr.getPlayerWidth() , gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
 
@@ -58,12 +58,12 @@ public class Player extends  Entity{
         else {
 
             if (!jumping) {
-                if (animationDir == Input.Inputs.LEFT)
+                if (animationDir == -1)
                     g2d.drawImage(gr.playerSprite.getSubimage(gr.getPlayerWidth(), 0, gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
                 else
                     g2d.drawImage(gr.playerSprite.getSubimage(0, 0, gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
             } else {
-                if (animationDir == Input.Inputs.LEFT)
+                if (animationDir == -1)
                     g2d.drawImage(gr.playerSprite.getSubimage(gr.getPlayerWidth(), gr.getPlayerHeight(), gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
                 else
                     g2d.drawImage(gr.playerSprite.getSubimage(0, gr.getPlayerHeight(), gr.getPlayerWidth(), gr.getPlayerHeight()), movementComp.getPosX(), -movementComp.getPosY(), null); //drawing y-axis (0,0) is top lef
@@ -79,18 +79,13 @@ public class Player extends  Entity{
      * *UP is for shooting
      * @param dir : direction from Input passed from RunGame()
      */
-    public void UpdateDirection(Input.Inputs dir) {
-        if (dir != Input.Inputs.UP){
-            if (dir == Input.Inputs.LEFT){
-                movementComp.setVx(-1);
-            }
-            else if (dir == Input.Inputs.RIGHT){
-            movementComp.setVx(1);
-            }
-            else
-            movementComp.setVx(0);
+    public void UpdateDirection(double dir) {
+        if (dir != 500){
+
+            movementComp.setVx(dir);
+
         }
-        animationDir = dir ;
+        animationDir = (int) dir ;
     }
 
 

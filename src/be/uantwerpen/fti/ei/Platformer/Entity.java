@@ -24,22 +24,32 @@ public class Entity {
     protected int width;
     protected int height;
 
-    protected GraphicsContext gr ; //every entity has acces to the graphicsContext
+    //every entity has acces to the graphicsContext
+    protected GraphicsContext gr ;
 
-    protected int LowDelDistance = -700;  //distance at wich deletion
-
-    //constructor
+    /**
+     * Constructor of entity
+     * Created a Movement component for each entity.
+     */
     public Entity(){
         movementComp = new MovementComp();
     }
 
-    //every entity needs to draw itself
+    /**
+     * Method Draw
+     * each entity can use this to draw itself on the panel.
+     */
     public void Draw(){};
 
 
-
-    //checks full on collision
-    public boolean collisionFull(Entity yea){
+    /**
+     * method CollisionFull
+     * Checks if 2 entities are colliding.
+     * Gets called from 1 entity to check on.
+     * @param yea   yea is the other entity to check on
+     * @return      return true if collision detected , else false
+     */
+    public boolean CollisionFull(Entity yea){
 
             if (
                     this.movementComp.getPosX() + yea.width > yea.movementComp.getPosX()  &&
@@ -58,9 +68,16 @@ public class Entity {
             }
     }
 
-    //collision between players feet and other full
-    public Boolean collisionPlayerPlatform(Entity Platform){ // this one needs to only collide when player falls on to it
-                             // so if jumpcounter = 0 then the player is back to falling s collision can occur
+
+    /**
+     * Method CollisionPlayerPlatform
+     * Checks if the underside of the player collides with an other entity
+     * Gets called from player
+     * @param Platform   Platform is the other entity to check with
+     * @return           Return true if collision detected , else false
+     */
+    public Boolean CollisionPlayerPlatform(Entity Platform){
+
 
         if (this.movementComp.getPosX() + this.width > Platform.movementComp.getPosX() &&
             this.movementComp.getPosX() < Platform.movementComp.getPosX() + Platform.width &&
@@ -73,18 +90,28 @@ public class Entity {
 
     }
 
-    //used for checking collision with player-enemy
+    /**
+     * Method PlayerOnTop
+     * Checks if the underside of player collides with the upside of other entity.
+     * underside of player gets checkt to interval ](upside - spaceAbove) , (upside + spaceAbove)[ of other entity.
+     * @param player    Player object gets passed in
+     * @return          Return true if collision detected , else false
+     */
     public boolean PlayerOnTop(Entity player){
+
+        int spaceAbove = 20; //20 is distance of top to check
 
         if( this.movementComp.getPosX() + this.width > player.movementComp.getPosX() &&
                 this.movementComp.getPosX() < player.movementComp.getPosX() + player.width &&
-           player.movementComp.getPosY() - player.height < this.movementComp.getPosY() &&
-                player.movementComp.getPosY() - player.height > this.movementComp.getPosY() - 20        //20 is distance of top to check
+
+           player.movementComp.getPosY() - player.height < this.movementComp.getPosY() - spaceAbove &&
+                player.movementComp.getPosY() - player.height > this.movementComp.getPosY() + spaceAbove
 
         )return  true;
         else  return false;
 
 }
+
 
     public MovementComp getMovementComp() {
         return movementComp;

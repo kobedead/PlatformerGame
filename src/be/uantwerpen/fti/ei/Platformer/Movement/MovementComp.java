@@ -9,7 +9,7 @@ public class MovementComp {
     //these are both for the velocity
     private int JumpCounter ; // could be better i think
 
-    private int Vx ; //-1 -> left , 1 -> right
+    private double Vx ; //-1 -> left , 1 -> right
 
 
     public int getPosX() {
@@ -37,11 +37,11 @@ public class MovementComp {
         JumpCounter = jumpCounter;
     }
 
-    public int getVx() {
+    public double getVx() {
         return Vx;
     }
 
-    public void setVx(int vx) {
+    public void setVx(double vx) {
         Vx = vx;
     }
 

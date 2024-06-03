@@ -27,16 +27,7 @@ public class Monster1 extends Enemy{
     }
 
 
-
-
-    public  void Draw(){
-        Graphics2D g2d = gr.getG2d();
-        int size = gr.getSize();
-        g2d.drawImage (gr.monster1Sprite, movementComp.getPosX() , - movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
-
-    }
-
-    public boolean Update(){
+    public boolean Update(int lowDelDistance){
 
 
         //System.out.println(attachedPlatform.getPosY() + "  ,  " +  attachedPlatform.getLowDelDistance());
@@ -56,9 +47,19 @@ public class Monster1 extends Enemy{
         }
         movementComp.setPosY(attachedPlatformPos.getPosY()+moved+height);
 
-        if (attachedPlatformPos.getPosY() <= LowDelDistance) return true;          //if deletion nessesary
+        if (attachedPlatformPos.getPosY() <= lowDelDistance) return true;          //if deletion nessesary
         else return false;
 
     }
+
+
+    public  void Draw(){
+        Graphics2D g2d = gr.getG2d();
+        int size = gr.getSize();
+        g2d.drawImage (gr.monster1Sprite, movementComp.getPosX() , - movementComp.getPosY(), null); //drawing y-axis (0,0) is top left
+
+    }
+
+
 
 }

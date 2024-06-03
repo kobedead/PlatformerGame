@@ -10,6 +10,8 @@ import java.io.IOException;
 public class GraphicsContext {
     private int screenWidth;
     private int screenHeight;
+
+
     private int platformHeight ;
     private int platformWidth ;
     private int playerHeight;
@@ -22,8 +24,8 @@ public class GraphicsContext {
 
     private JFrame frame;
     private JPanel panel;
-    private BufferedImage g2dimage;     // used for drawing
-    private Graphics2D g2d;             // always draw in this one
+    private BufferedImage g2dimage;
+    private Graphics2D g2d;
 
 
 
@@ -40,6 +42,9 @@ public class GraphicsContext {
     public BufferedImage themes2;
     public BufferedImage themes3;
     public BufferedImage themes4;
+
+    public BufferedImage play1 ;
+    public BufferedImage play2 ;
 
 
     public BufferedImage playerSprite;
@@ -114,6 +119,20 @@ public class GraphicsContext {
         frame.setVisible(true);
     }
 
+
+    public void Resize(int GM){
+
+        if (GM == 1){
+            frame.resize(screenWidth , screenHeight);
+        }
+        else
+            frame.resize(screenHeight , screenWidth);
+
+    }
+
+
+
+
     public void render() {                          //repaints all the things drawn before ig
         panel.repaint();
     }
@@ -142,7 +161,8 @@ public class GraphicsContext {
             themes3 = ImageIO.read(new File("Sources/Menu/Theme/Theme1_select+theme2_2.0.png"));
             themes4 = ImageIO.read(new File("Sources/Menu/Theme/Theme2_select+theme2_2.0.png"));
 
-
+            play1 = ImageIO.read(new File("Sources/Menu/Play/Play1.png"));
+            play2 = ImageIO.read(new File("Sources/Menu/Play/Play2.png"));
 
             if (theme == 1 ) {
 
@@ -188,18 +208,6 @@ public class GraphicsContext {
         }
     }
 
-    public void JumpAnimation(boolean jumping){
-
-        if (jumping == true ){
-
-
-
-        }
-
-
-
-
-    }
 
 
     public void ThemeChange(int theme){
@@ -218,6 +226,11 @@ public class GraphicsContext {
             themes2 = resizeImage(themes2, screenWidth , screenHeight);
             themes3 = resizeImage(themes3, screenWidth, screenHeight);
             themes4 = resizeImage(themes4, screenWidth , screenHeight);
+
+            play1 = resizeImage(play1, screenWidth , screenHeight);
+            play2 = resizeImage(play2, screenWidth , screenHeight);
+
+
 
             playerSprite = resizeImage(playerSprite, playerWidth*5, playerHeight*2);         //rezise the player sprite
             playerJumping = resizeImage(playerJumping, size*20, size*20);         //rezise the player sprite

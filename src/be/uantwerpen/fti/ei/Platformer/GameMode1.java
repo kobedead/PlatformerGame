@@ -4,6 +4,7 @@ import Dependencies.GraphicsContext;
 import Dependencies.Input;
 import be.uantwerpen.fti.ei.Platformer.Enemy.Enemy;
 import be.uantwerpen.fti.ei.Platformer.Enemy.Monster1;
+import be.uantwerpen.fti.ei.Platformer.Misc.Bullet;
 import be.uantwerpen.fti.ei.Platformer.Movement.MoveUpdater;
 import be.uantwerpen.fti.ei.Platformer.Platforms.CrackingPlatform;
 import be.uantwerpen.fti.ei.Platformer.Platforms.MovingPlatform;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 
 /**
  * Class that runs the game, and manages it.
- * Here the menu's and the actual running game are defined.
+ * Here the actual running game is defined.
  */
-public class Game {
+public class GameMode1 {
 
     private GraphicsContext grCtx;
     private Input input;
@@ -41,6 +42,10 @@ public class Game {
     private boolean propHit;    //for higher jump
 
 
+    //maybe in game class instead of here
+    protected int lowDelDistance ; //distance at wich deletion
+
+
     private int triggerHeight = 50;         //from what distance above screen new platform needs to be generated
 
     private int maxJumpHeight = 100;        //for variation in platform compactness
@@ -51,7 +56,7 @@ public class Game {
 
     private PlatformEntity currentPlatform; //what platform the player last jumped on
 
-    private int hightToScroll = -600 ;      //if the player gets to this hight the platforms will move istead of player
+    private int hightToScroll  ;      //if the player gets to this hight the platforms will move istead of player
 
     private PlatformEntity highestPlatform; //highest platform in the game
 
@@ -81,11 +86,12 @@ public class Game {
      * sets the graphicsContecs, gameDimentions and Input
      * @param grCtx  the graphicscontent for the sprites and drawing on screen.
      */
-    public Game(GraphicsContext grCtx , Input input) {
+    public GameMode1(GraphicsContext grCtx , Input input) {
         this.grCtx = grCtx;
         this.input = input;
-        updater = new MoveUpdater();
-
+        updater = new MoveUpdater(grCtx.getPlayerHeight() ,  grCtx.getScreenWidth() );
+        lowDelDistance =  -grCtx.getScreenHeight()+100;
+        hightToScroll = -grCtx.getScreenHeight()+250;
     }
 
 
@@ -118,7 +124,7 @@ public class Game {
         player.Draw(false);
 
         //draw string for info
-        grCtx.getG2d().drawString("Press space to start", grCtx.getScreenWidth() / 2 - 100, 100);
+        grCtx.getG2d().drawString("Press escape to start", grCtx.getScreenWidth() / 2 - 100, 100);
 
         //render frame
         grCtx.render();
@@ -132,15 +138,16 @@ public class Game {
             //get user input
             if (input.inputAvailable()) {
                 Input.Inputs direction = input.getInput();
-                if (direction == Input.Inputs.SPACE)
+                if (direction == Input.Inputs.ESC)
                     isPaused = !isPaused;
                 else if (direction == Input.Inputs.UP) {
-                    bullets.add(new Bullet(player, grCtx.getBulletsize(), grCtx.getBulletsize(), grCtx));
-                    player.UpdateDirection(direction);
+                    bullets.add(new Bullet(player.getMovementComp(), grCtx));
+                    player.UpdateDirection(500);
                 }
-                else
-                    player.UpdateDirection(direction);
-
+                else if (direction == Input.Inputs.LEFT)
+                    player.UpdateDirection(-1);
+                else if (direction == Input.Inputs.RIGHT)
+                    player.UpdateDirection(1);
             }
             //run the logic of the game
             try {
@@ -157,8 +164,10 @@ public class Game {
                         //update platforms and bring jumpcountr back to player
                         player.movementComp.setJumpCounter(UpdatePlatformsY(player.movementComp.getJumpCounter()));
 
+
                         //let player move left and right
-                        player.setMovementComp(updater.UpdatePlayer(player.getMovementComp(), grCtx.getScreenWidth() , false , true));       //update player x coordinate only
+                        updater.UpdatePlayer(player.getMovementComp(), false , true);
+                               //update player x coordinate only
                         //without the data-oriented it was just : Player.Update(false , true);
 
                     } else {
@@ -166,7 +175,8 @@ public class Game {
                         //check if player collide to jump
                         jump = CheckCollision();
                         //update player movement
-                        player.setMovementComp(updater.UpdatePlayer(player.getMovementComp(), grCtx.getScreenWidth() , jump , false));
+                        updater.UpdatePlayer(player.getMovementComp() , jump , false);
+
                         //for jumping animation
                         if (jump) {
                             jumped = 10 ;
@@ -343,10 +353,14 @@ public class Game {
         if ((wasMonster > 0 && enemies.size() != 0)  ) {
             if ((enemies.getLast().movementComp.getPosX() < grCtx.getScreenWidth()/2)) {
                 xp = (int) (Math.random() * ((grCtx.getScreenWidth() / 2) - grCtx.getPlatformWidth())) + grCtx.getScreenWidth() / 2;
+                color = 10 ; //moving platform after monster can be shit
                 wasMonster--;
             } else {
                 xp = (int) (Math.random() * ((grCtx.getScreenWidth() / 2) - grCtx.getPlatformWidth()));
+                color = 10 ; //moving platform after monster can be shit
+
                 wasMonster--;
+
             }
         }
         else if (wasTrampo){    //so trampo gets space above it
@@ -448,7 +462,7 @@ public class Game {
         //colision between player and platform
         for (PlatformEntity yea : platforms) {
 
-            if (player.collisionPlayerPlatform(yea) && player.movementComp.getJumpCounter() < 0) {          ///falling onto platform
+            if (player.CollisionPlayerPlatform(yea) && player.movementComp.getJumpCounter() < 0) {          ///falling onto platform
                 if (yea.GetId() == 6) {                  //cracklingplatform
                     platforms.remove(yea);
                     return false;
@@ -461,7 +475,7 @@ public class Game {
 
         //collirsion between player and props
         for (Props prop : props) {
-            if (player.collisionPlayerPlatform(prop) && player.movementComp.getJumpCounter() < 0) {  ///falling onto prop
+            if (prop.CollisionPropPlayer(player) && player.movementComp.getJumpCounter() < 0) {  ///falling onto prop
                 player.movementComp.setJumpCounter(prop.getPower());
                 propHit = true;
                 return true;
@@ -471,15 +485,15 @@ public class Game {
 
         //collision between player and enemies
         for (int i = 0; i < enemies.size(); i++) {
-            if (player.movementComp.getJumpCounter() > 0 && player.collisionFull(enemies.get(i))) {
+            if (player.movementComp.getJumpCounter() > 0 && player.CollisionFull(enemies.get(i))) {
                 gameOver = true;
                 return false;
-            } else if (player.movementComp.getJumpCounter() < 0 && enemies.get(i).PlayerOnTop(player) && player.collisionFull(enemies.get(i))) { //idk of laatste && moet
+            } else if (player.movementComp.getJumpCounter() < 0 && enemies.get(i).PlayerOnTop(player) && player.CollisionFull(enemies.get(i))) { //idk of laatste && moet
                 enemies.remove(i);
                 wasMonster = 0 ;
                 return true;
                 //mss true nog zetten voor jump na kill
-            } else if (player.movementComp.getJumpCounter() < 0 && player.collisionFull(enemies.get(i))) {
+            } else if (player.movementComp.getJumpCounter() < 0 && player.CollisionFull(enemies.get(i))) {
                 gameOver = true;
                 return false;
             }
@@ -510,7 +524,7 @@ public class Game {
 
 
                 for (Enemy enemy : enemies) {
-                    if (enemy.collisionFull(bullet)) {
+                    if (enemy.CollisionFull(bullet)) {
                         ToRemove.add(enemy);
                     }
                 }
@@ -551,7 +565,7 @@ public class Game {
 
         for (Enemy enemy : enemies) {
 
-            if (enemy.Update()) {        //upadates enemy already with the call
+            if (enemy.Update(lowDelDistance)) {        //upadates enemy already with the call
 
                 ToDelete.add(enemy);
 
@@ -569,7 +583,7 @@ public class Game {
         ArrayList<Props> toDelete = new ArrayList();
 
         for (Props props1 : props){
-            if(props1.Update()){
+            if(props1.getMovementComp().getPosY() < lowDelDistance ){
                 toDelete.add(props1);
             }
 
@@ -603,9 +617,9 @@ public class Game {
         for (PlatformEntity yea : platforms) {
 
             yea.movementComp.setJumpCounter(JumpcountPlayer);
-            yea.setMovementComp(updater.UpdatePlatform(yea.getMovementComp(), false ));
+            updater.UpdatePlatform(yea.getMovementComp(), false );
 
-            if (yea.movementComp.getPosY() < yea.getLowDelDistance()) {          //check for platform deletion
+            if (yea.movementComp.getPosY() < lowDelDistance) {          //check for platform deletion
                 PlatformsToRemove.add(yea);
             }
 
@@ -613,8 +627,12 @@ public class Game {
         }
         platforms.removeAll(PlatformsToRemove); //delete to low platforms
 
+        PlatformEntity scoreplatform = platforms.get(platforms.size()-2);
+
         //get score out of lua script //kind of weird but yea
-        int tempScore = updater.UpdatePlatform(platforms.get(platforms.size()-2).getMovementComp(), true).getJumpCounter();
+        updater.UpdatePlatform(scoreplatform.getMovementComp(), true);
+
+        int tempScore =scoreplatform.getMovementComp().getJumpCounter();
         //set new score
         player.setScore(player.getScore() + tempScore);
 
