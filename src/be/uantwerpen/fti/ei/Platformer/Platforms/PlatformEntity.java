@@ -1,5 +1,6 @@
 package be.uantwerpen.fti.ei.Platformer.Platforms;
 import be.uantwerpen.fti.ei.Platformer.Entity;
+import be.uantwerpen.fti.ei.Platformer.Movement.MovementComp;
 
 /**
  * Class PlatformEntity, child of Entity
@@ -20,6 +21,7 @@ public class PlatformEntity extends Entity {
      * Constructor PlatformEntity
      */
     public PlatformEntity(){
+        movementComp = new MovementComp();
         onTop  = false;
     }
 

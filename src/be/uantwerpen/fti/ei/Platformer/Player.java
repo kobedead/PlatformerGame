@@ -5,6 +5,7 @@ import java.awt.*;
 
 import Dependencies.GraphicsContext;
 import Dependencies.Input;
+import be.uantwerpen.fti.ei.Platformer.Movement.MovementComp;
 
 
 public class Player extends  Entity{
@@ -23,6 +24,7 @@ public class Player extends  Entity{
      * @param gr : GraphicsContext
      */
     public Player(int x , int y , GraphicsContext gr) {
+        movementComp = new MovementComp();
 
         movementComp.setPosX(x);
         movementComp.setPosY(y);

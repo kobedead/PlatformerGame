@@ -65,7 +65,7 @@ public class GraphicsContext {
     public BufferedImage jetterSprite ;
 
     public BufferedImage monster1Sprite;
-
+    public BufferedImage monster2Sprite ;
 
     public BufferedImage bulletSprite;
 
@@ -207,6 +207,8 @@ public class GraphicsContext {
 
 
                 monster1Sprite = ImageIO.read(new File("Sources/Theme1/Enemies/Monster1.png"));
+                monster2Sprite = ImageIO.read(new File("Sources/Theme2/Monsters/Monster1.png"));
+
 
                 bulletSprite = ImageIO.read(new File("Sources/Theme1/Bullet.png"));
             }
@@ -223,6 +225,7 @@ public class GraphicsContext {
                 trampolineSprite = ImageIO.read(new File("Sources/Theme2/Props/Trampoline.png"));
 
                 monster1Sprite = ImageIO.read(new File("Sources/Theme2/Monsters/Monster1.png"));
+                monster2Sprite = ImageIO.read(new File("Sources/Theme1/Enemies/Monster1.png"));
 
                 bulletSprite = ImageIO.read(new File("Sources/Theme2/Bullet.png"));
 

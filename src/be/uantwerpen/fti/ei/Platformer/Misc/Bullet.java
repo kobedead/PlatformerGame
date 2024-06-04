@@ -20,6 +20,8 @@ public class Bullet  extends Entity {
      */
     public Bullet(MovementComp originPlayer , GraphicsContext gr  ){
 
+        movementComp = new MovementComp();
+
         int speed  = 10 ;
         movementComp.setJumpCounter(10);
 

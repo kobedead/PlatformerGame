@@ -5,19 +5,35 @@ import be.uantwerpen.fti.ei.Platformer.Movement.MovementComp;
 
 import java.awt.*;
 
+
+/**
+ * Class Monster1
+ * This is a monster that will live on a platform and jump op and down on it
+ */
 public class Monster1 extends Enemy{
 
 
+    //amount the monster moves
+    protected int timeToMove;
+    protected int moved = 0;
+    protected int dir ; //0 is down , 1 is up
+    protected MovementComp attachedPlatformPos;
+    /**
+     * Constructor of Monster1
+     * @param platformsPos  Position of attached platfrom
+     * @param gr            GraphicsContext
+     */
+    public  Monster1(MovementComp platformsPos, GraphicsContext gr){
 
-    public  Monster1(MovementComp platformsPos, int h , int  w , GraphicsContext gr){
+        id = 25 ;
 
         attachedPlatformPos = platformsPos ;
 
         this.gr = gr ;
-        height = h;
-        width = w ;
+        height = gr.getMonster1Height();
+        width = gr.getMonster1Width() ;
 
-        movementComp.setPosY(platformsPos.getPosY()+h);
+        movementComp.setPosY(platformsPos.getPosY()+height);
         movementComp.setPosX(platformsPos.getPosX());
 
         dir = 1 ;
@@ -26,6 +42,12 @@ public class Monster1 extends Enemy{
 
     }
 
+    /**
+     * Method Update
+     * Updated the psostion of the monster on its attached platform
+     * @param lowDelDistance    the distance atwich the monster needs to be deleted
+     * @return                  true if to low -> deletion nessesary
+     */
     @Override
     public boolean Update(int lowDelDistance){
 

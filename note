@@ -29,4 +29,8 @@ Only generated functions are with lower case at begin.
 I did this to differentiate a variable from a function.
 
 
+Coordinate System :
 
+i coded the game so that the left top of the displayed window is the origin (0,0)
+then i just used a normal coordinate system, so the displayed area is in the 4the quadrant. (+x,-y).
+So for drawing i just inversed the y coordinate.

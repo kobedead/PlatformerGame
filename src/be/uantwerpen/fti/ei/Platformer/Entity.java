@@ -34,7 +34,7 @@ public class Entity {
      * Created a Movement component for each entity.
      */
     public Entity(){
-        movementComp = new MovementComp();
+
     }
 
     /**

@@ -4,6 +4,7 @@ import Dependencies.GraphicsContext;
 import Dependencies.Input;
 import be.uantwerpen.fti.ei.Platformer.Enemy.Enemy;
 import be.uantwerpen.fti.ei.Platformer.Enemy.Monster1;
+import be.uantwerpen.fti.ei.Platformer.Enemy.Monster2;
 import be.uantwerpen.fti.ei.Platformer.Misc.Bullet;
 import be.uantwerpen.fti.ei.Platformer.Movement.MoveUpdater;
 import be.uantwerpen.fti.ei.Platformer.Platforms.CrackingPlatform;
@@ -432,12 +433,24 @@ public class GameMode1 {
         }
 
         //monster
-        else if (color <= 107 && amountOfPlatformEntities > 30 ) {
+        else if (color <= 106 && amountOfPlatformEntities > 30 ) {
             //with more monsters i can chose here by random also
 
             //for now MOnster1 on top of staticplatform
             platforms.add(new StaticPlatform(xp, yp, grCtx.getPlatformHeight(), grCtx.getPlatformWidth(), grCtx));
-            enemies.add(new Monster1(platforms.getLast().getMovementComp(), grCtx.getMonster1Height(), grCtx.getMonster1Width(), grCtx));
+            enemies.add(new Monster1(platforms.getLast().getMovementComp(), grCtx));
+
+            wasMonster = (int) (Math.random() * (2)) + 1;   //to help with colission of monster-platform
+
+            amountOfPlatformEntities = 0 ;
+}
+
+
+        //monster2
+        else if (color <= 107 ){// amountOfPlatformEntities > 30 ) {
+            //with more monsters i can chose here by random also
+
+            enemies.add(new Monster2(xp , yp , player.getMovementComp(), grCtx));
 
             wasMonster = (int) (Math.random() * (2)) + 1;   //to help with colission of monster-platform
 
@@ -637,7 +650,13 @@ public class GameMode1 {
 
         ArrayList<PlatformEntity> PlatformsToRemove = new ArrayList();
 
-
+        for (Enemy enemy : enemies ){
+            //if enemy is Monster2
+            if(enemy.getId() == 26) {
+                enemy.getMovementComp().setJumpCounter(JumpcountPlayer);
+                updater.UpdatePlatform(enemy.getMovementComp(), false);
+            }
+        }
 
         for (PlatformEntity yea : platforms) {
 
