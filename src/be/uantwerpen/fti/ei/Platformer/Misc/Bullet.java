@@ -50,6 +50,7 @@ public class Bullet  extends Entity {
      * Method Draw
      * Draws the bullet on jpanel
      */
+    @Override
     public  void Draw(){
 
         Graphics2D g2d = gr.getG2d();

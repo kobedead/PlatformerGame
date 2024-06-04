@@ -26,7 +26,7 @@ public class Monster1 extends Enemy{
 
     }
 
-
+    @Override
     public boolean Update(int lowDelDistance){
 
 

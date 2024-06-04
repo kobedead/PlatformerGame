@@ -11,8 +11,6 @@ public class Main {
         GraphicsContext gr = new GraphicsContext() ; // here everything gets drawn in ig
 
 
-
-
         GameMenu menu = new GameMenu(gr) ;
         menu.MenuGame();
 

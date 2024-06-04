@@ -1,7 +1,32 @@
-to do :
+normally the controls are given but could be a bit confusing.
 
- -   @Override
-bij function van children zetten
-//mss interface van entity enz maken? zie abstract factory
 
-- exception bij notes van fucties.
+Menu :
+    To browse in menu, you use arrow keys : -> , <-
+
+    To select something in the menu, you press ENTER.
+
+    To go back from menu you press SPACE
+
+Game :
+    To Start or to pause , u use  ENTER
+
+    To controll player in gamemode 1, u use  arrow keys
+
+    To jump in gamemode2, u use SPACE
+
+    To shoot a bullet, u use the up key
+
+    To go back from The game to menu, you press ESC
+
+
+Notes :
+
+As coding convention i tried to use camelcase with variable(starting with lower case).
+And i use camelcase with functions aswell but i mainly wrote function starting with capital letter.
+Only generated functions are with lower case at begin.
+
+I did this to differentiate a variable from a function.
+
+
+

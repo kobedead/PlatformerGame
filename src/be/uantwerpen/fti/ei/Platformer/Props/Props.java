@@ -9,8 +9,7 @@ import be.uantwerpen.fti.ei.Platformer.Movement.MovementComp;
  */
 public class Props extends Entity {
 
-    //id for each kind of prop
-    int id ;
+
 
     //where on the platform does the prop live
     protected int positionOnPlat;   //0 = left , 1 = mid , 2 = right

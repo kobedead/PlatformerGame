@@ -1,11 +1,16 @@
 package Dependencies;
 
+import be.uantwerpen.fti.ei.Platformer.Props.Props;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GraphicsContext {
     private int screenWidth;
@@ -101,8 +106,28 @@ public class GraphicsContext {
 
 
     public GraphicsContext() {
-        screenWidth = 450;
-        screenHeight = 800;
+        //read resolution out of config file (previeuw)
+        ArrayList<String> lines = new ArrayList();
+
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader("Config.txt"));
+            String line = reader.readLine();
+
+            while (line != null) {
+                lines.add(line);
+                line = reader.readLine();
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        screenHeight = Integer.valueOf(lines.get(1)) ;
+        screenWidth = screenHeight /16*9;
+
         frame = new JFrame();
         panel = new JPanel(true) {
             @Override
@@ -116,7 +141,7 @@ public class GraphicsContext {
         frame.setTitle("2D_platformer");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(screenWidth, screenHeight);
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

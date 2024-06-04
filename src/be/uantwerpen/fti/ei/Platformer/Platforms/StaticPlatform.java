@@ -15,7 +15,7 @@ public class StaticPlatform extends PlatformEntity {
         this.gr = gr ;
         id = 5;
     }
-
+    @Override
     public void Draw(){
 
         Graphics2D g2d = gr.getG2d();

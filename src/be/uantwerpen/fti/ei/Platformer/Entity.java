@@ -17,6 +17,8 @@ import be.uantwerpen.fti.ei.Platformer.Movement.MovementComp;
  */
 public class Entity {
 
+    protected int id ;
+
     //for the data oriented design pattern ig
     protected MovementComp movementComp;
 
@@ -52,11 +54,11 @@ public class Entity {
     public boolean CollisionFull(Entity yea){
 
             if (
-                    this.movementComp.getPosX() + yea.width > yea.movementComp.getPosX()  &&
-                            this.movementComp.getPosX() < yea.movementComp.getPosX() + yea.width     &&
+                    this.movementComp.getPosX() + this.width >= yea.movementComp.getPosX()  &&
+                            this.movementComp.getPosX() <= yea.movementComp.getPosX() + yea.width     &&
 
-                            this.movementComp.getPosY() > yea.movementComp.getPosY()  - yea.height &&
-                            this.movementComp.getPosY() - this.height < yea.movementComp.getPosY()
+                            this.movementComp.getPosY() >= yea.movementComp.getPosY()  - yea.height &&
+                            this.movementComp.getPosY() - this.height <= yea.movementComp.getPosY()
             )
             {
                 return true;
@@ -137,7 +139,13 @@ public class Entity {
         this.gr = gr;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }
 
 

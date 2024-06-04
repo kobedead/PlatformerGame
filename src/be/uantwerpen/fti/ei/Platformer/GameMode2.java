@@ -11,6 +11,7 @@ import be.uantwerpen.fti.ei.Platformer.Platforms.CrackingPlatform;
 import be.uantwerpen.fti.ei.Platformer.Platforms.MovingPlatform;
 import be.uantwerpen.fti.ei.Platformer.Platforms.PlatformEntity;
 import be.uantwerpen.fti.ei.Platformer.Platforms.StaticPlatform;
+import be.uantwerpen.fti.ei.Platformer.Props.Jetter;
 import be.uantwerpen.fti.ei.Platformer.Props.Props;
 import be.uantwerpen.fti.ei.Platformer.Props.Trampoline;
 
@@ -42,7 +43,7 @@ public class GameMode2 {
     Input.Inputs keyInput;
 
     private boolean playerLocked  = false ;
-
+    private boolean movingplatform =  false ;
 
     private Entity jumpedOnEntity ; //to check if jum is nessessary
 
@@ -137,7 +138,7 @@ public class GameMode2 {
         player.Draw(0);
 
         //draw string for info
-        grCtx.getG2d().drawString("Press escape to start", grCtx.getScreenWidth() / 2 - 100, 100);
+        grCtx.getG2d().drawString("Press ENTER to start", grCtx.getScreenWidth() / 2 - 100, 100);
 
         //render frame
         grCtx.render();
@@ -151,12 +152,12 @@ public class GameMode2 {
             //get user input
             if (input.inputAvailable()) {
                  keyInput = input.getInput();
-                if (keyInput == Input.Inputs.ESC)
+                if (keyInput == Input.Inputs.ENTER)
                     isPaused = !isPaused;
                 else if (keyInput == Input.Inputs.UP ) {
                     player.UpdateDirection(cos(dirArrow.getAngle() *3.1415/180));
                     bullets.add(new Bullet(player.getMovementComp() , grCtx));
-                }else if (keyInput == Input.Inputs.ENTER){
+                }else if (keyInput == Input.Inputs.ESC){
                     return  0 ;
                 }
 
@@ -170,6 +171,12 @@ public class GameMode2 {
 
 
                         dirArrow.Update();
+
+
+                        if (movingplatform){
+                            //will teleport player to left side of platform but yea.
+                            player.getMovementComp().setPosX(jumpedOnEntity.getMovementComp().getPosX());
+                        }
 
 
 
@@ -212,10 +219,32 @@ public class GameMode2 {
 
                             if (jumpedOnEntity != null) {//player landed on something and needs to stay on it
 
-                                //lock player y position to the y position of the object it landed on
-                                player.getMovementComp().setPosY(jumpedOnEntity.getMovementComp().getPosY() + grCtx.getPlayerHeight());
 
-                                playerLocked = true;
+
+                                //crackling platform -> do nothing
+                                if(jumpedOnEntity.getId() != 6 ) {
+
+                                    //static platform
+
+                                    if (jumpedOnEntity.getId() == 7 ) {
+                                        //lock player y position to the y position of the object it landed on
+                                        player.getMovementComp().setPosY(jumpedOnEntity.getMovementComp().getPosY() + grCtx.getPlayerHeight());
+                                        playerLocked = true;
+                                        //so the player can move with movingplatform
+                                        movingplatform = true;
+                                    }
+                                    else {
+
+
+                                            //lock player y position to the y position of the object it landed on
+                                            player.getMovementComp().setPosY(jumpedOnEntity.getMovementComp().getPosY() + grCtx.getPlayerHeight());
+                                            playerLocked = true;
+                                            //so the player can move with movingplatform
+                                            movingplatform = false;
+
+                                    }
+                                }
+
 
                             }
 
@@ -299,7 +328,7 @@ public class GameMode2 {
         int extraHeight = 200; //hight above screen to also draw onto
 
         //fills visable screen with platforms
-        if (begin) {
+
 
             int MaxPlatforms = 15;
 
@@ -343,10 +372,11 @@ public class GameMode2 {
                 }
             }
 
-        }
+
 
 
     }
+
 
 
     /**
@@ -411,7 +441,9 @@ public class GameMode2 {
             } else {
                 xp = (int) (Math.random() * ((grCtx.getScreenWidth() / 2) - grCtx.getPlatformWidth()));
                 color = 10 ; //moving platform after monster can be shit
+
                 wasMonster--;
+
             }
         }
         else if (wasTrampo){    //so trampo gets space above it
@@ -451,6 +483,7 @@ public class GameMode2 {
 
             }
         }
+
         //horizontal moving
         else if (color <= 90) {
             platforms.add(new MovingPlatform(xp, yp, grCtx.getPlatformHeight(), grCtx.getPlatformWidth(), grCtx));
@@ -459,7 +492,7 @@ public class GameMode2 {
         }
         //trampoline (with static platform)
 
-        else if (color <= 98) {
+        else if (color <= 99) {
             platforms.add(new StaticPlatform(xp, yp, grCtx.getPlatformHeight(), grCtx.getPlatformWidth(), grCtx));
             props.add(new Trampoline(platforms.getLast().movementComp, grCtx));
             amountOfPlatformEntities++;
@@ -467,7 +500,7 @@ public class GameMode2 {
         }
 
         //monster
-        else if (color <= 105 && amountOfPlatformEntities > 30 ) {
+        else if (color <= 107 && amountOfPlatformEntities > 30 ) {
             //with more monsters i can chose here by random also
 
             //for now MOnster1 on top of staticplatform
@@ -480,10 +513,12 @@ public class GameMode2 {
 
 
         }
-        //rocket or something more rare -> improvement
-        else if (color <= 108 && level > 3) {
 
 
+        //jetter (rocket)
+        else if (color <= 108 && level >3 ) {
+            platforms.add(new StaticPlatform(xp , yp , grCtx.getPlatformHeight() , grCtx.getPlatformWidth() , grCtx));
+            props.add(new Jetter(platforms.getLast().getMovementComp() , grCtx)) ;
             //safe
         } else
             platforms.add(new StaticPlatform(xp, yp, grCtx.getPlatformHeight(), grCtx.getPlatformWidth(), grCtx));

@@ -15,7 +15,7 @@ public class CrackingPlatform extends PlatformEntity{
         id = 6;
     }
 
-
+    @Override
     public void Draw(){
 
         Graphics2D g2d = gr.getG2d();

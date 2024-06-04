@@ -1,0 +1,2 @@
+Resoltution-Height : (16/9 ratio will be applied)
+900

@@ -30,7 +30,7 @@ public class MovingPlatform extends  PlatformEntity{
     }
 
 
-
+    @Override
     public void Draw(){
 
         Graphics2D g2d = gr.getG2d();
@@ -44,6 +44,7 @@ public class MovingPlatform extends  PlatformEntity{
      * Method UpdateMovX
      * updates x position of the platform
      */
+    @Override
     public void UpdateMovX(){
 
 

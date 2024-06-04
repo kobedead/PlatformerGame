@@ -94,7 +94,7 @@ public class GameMode1 {
         this.input = input;
         updater = new MoveUpdater(grCtx.getPlayerHeight() ,  grCtx.getScreenWidth() );
         lowDelDistance =  -grCtx.getScreenHeight()+100;
-        hightToScroll = -grCtx.getScreenHeight()+250;
+        hightToScroll = -grCtx.getScreenHeight()+200;
     }
 
 
@@ -127,7 +127,7 @@ public class GameMode1 {
         player.Draw(0);
 
         //draw string for info
-        grCtx.getG2d().drawString("Press escape to start", grCtx.getScreenWidth() / 2 - 100, 100);
+        grCtx.getG2d().drawString("Press ENTER to start", grCtx.getScreenWidth() / 2 - 100, 100);
 
         //render frame
         grCtx.render();
@@ -141,7 +141,7 @@ public class GameMode1 {
             //get user input
             if (input.inputAvailable()) {
                 Input.Inputs direction = input.getInput();
-                if (direction == Input.Inputs.ESC)
+                if (direction == Input.Inputs.ENTER)
                     isPaused = !isPaused;
                 else if (direction == Input.Inputs.UP) {
                     bullets.add(new Bullet(player.getMovementComp(), grCtx));
@@ -151,7 +151,7 @@ public class GameMode1 {
                     player.UpdateDirection(-1);
                 else if (direction == Input.Inputs.RIGHT)
                     player.UpdateDirection(1);
-                else if (direction == Input.Inputs.ENTER){
+                else if (direction == Input.Inputs.ESC){
                     return  0 ;
                 }
             }
@@ -374,7 +374,6 @@ public class GameMode1 {
             } else {
                 xp = (int) (Math.random() * ((grCtx.getScreenWidth() / 2) - grCtx.getPlatformWidth()));
                 color = 10 ; //moving platform after monster can be shit
-
                 wasMonster--;
 
             }
@@ -425,7 +424,7 @@ public class GameMode1 {
         }
         //trampoline (with static platform)
 
-        else if (color <= 98) {
+        else if (color <= 99) {
             platforms.add(new StaticPlatform(xp, yp, grCtx.getPlatformHeight(), grCtx.getPlatformWidth(), grCtx));
             props.add(new Trampoline(platforms.getLast().movementComp, grCtx));
             amountOfPlatformEntities++;
@@ -433,7 +432,7 @@ public class GameMode1 {
         }
 
         //monster
-        else if (color <= 105 && amountOfPlatformEntities > 30 ) {
+        else if (color <= 107 && amountOfPlatformEntities > 30 ) {
             //with more monsters i can chose here by random also
 
             //for now MOnster1 on top of staticplatform
@@ -511,6 +510,7 @@ public class GameMode1 {
 
         //collision between player and enemies
         for (int i = 0; i < enemies.size(); i++) {
+
             if (player.movementComp.getJumpCounter() > 0 && player.CollisionFull(enemies.get(i))) {
                 gameOver = true;
                 return false;
@@ -518,7 +518,6 @@ public class GameMode1 {
                 enemies.remove(i);
                 wasMonster = 0 ;
                 return true;
-                //mss true nog zetten voor jump na kill
             } else if (player.movementComp.getJumpCounter() < 0 && player.CollisionFull(enemies.get(i))) {
                 gameOver = true;
                 return false;

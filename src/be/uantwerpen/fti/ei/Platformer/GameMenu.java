@@ -148,8 +148,6 @@ public class GameMenu {
         grCtx.getG2d().drawImage(grCtx.play1, 0, 0, null);    //draws background for gameover
         grCtx.render();
 
-
-
         boolean playType1 = true ;
 
         while (true) {
@@ -165,6 +163,8 @@ public class GameMenu {
                 }
                 else if (KeyInput == Input.Inputs.ENTER){
                     if (playType1){
+
+                        //start gamemode 1
                         GameMode1 gameMode1 = new GameMode1(grCtx , input) ;
                         playerScore =  gameMode1.RunGame();
                         if (playerScore != 0){
@@ -174,7 +174,7 @@ public class GameMenu {
                         return;
                     }
                     else{
-
+                        //start gamemode 2
                         GameMode2 gameMode2 = new GameMode2(grCtx , input) ;
                         playerScore =  gameMode2.RunGame();
                         if (playerScore != 0){
@@ -183,6 +183,8 @@ public class GameMenu {
                         return;
                     }
 
+                }else if (KeyInput == Input.Inputs.SPACE){
+                    return;
                 }
             }
             if(rendered == false){
@@ -195,13 +197,6 @@ public class GameMenu {
                 rendered = true;
 
             }
-
-
-
-
-
-
-
 
             Thread.sleep(treadSleep);
 

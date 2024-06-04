@@ -1,5 +1,9 @@
 package be.uantwerpen.fti.ei.Platformer.Movement;
 
+/**
+ * Class movementcomp
+ * discribes the movement of entities.
+ */
 public class MovementComp {
 
     private int PosX ;

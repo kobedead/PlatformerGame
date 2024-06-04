@@ -4,7 +4,10 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
-
+/**
+ * Class MoveUpdater
+ * updates the movementcomp
+ */
 public class MoveUpdater {
 
     private LuaValue update_func; //luaFunction
@@ -15,8 +18,10 @@ public class MoveUpdater {
      * Here the lua file : "update.lua" gets opened and the
      * function update gets pulled out and stored in the class
      * as update_func.
+     *  @param screenHeight
+     *  @param screenWidth
      */
-    public MoveUpdater(int screenHeight , int screenWidth) {
+     public MoveUpdater(int screenHeight , int screenWidth) {
 
         this.screenWidth = screenWidth ;
         this.screenHeight = screenHeight ;
@@ -67,38 +72,6 @@ public class MoveUpdater {
     }
 
 
-    /**
-     * Method MovementComp :
-     * Here the movement of the player gets updated.
-     * This gets done by passing the movementComp of the player trough
-     * the luafunction : update.
-     * there are a couple more parameters that get passes to the function.
-     * @param movementComp : All the movement info of the player
-     * @param screenwidth  : The total width of the screen
-     * @param collision    : True when the player has jumped on something
-     * @param X_only       : True when only the x coordinate of the player needs to be updated
-     * @return             : Returns the movementComp so the player can use this
-     */
-
-    public void UpdatePlayerGM2(MovementComp movementComp, int angle , boolean collision ) {
-
-        //ill first make a lua table with all the relevant playerinfo to get updated  //could automate with reflexion ig
-        LuaTable table = new LuaTable();
-
-        table.hashset(LuaValue.valueOf("PosX"), LuaValue.valueOf(movementComp.getPosX()));
-        table.hashset(LuaValue.valueOf("PosY"), LuaValue.valueOf(movementComp.getPosY()));
-        table.hashset(LuaValue.valueOf("JmpCount"), LuaValue.valueOf(movementComp.getJumpCounter()));
-        table.hashset(LuaValue.valueOf("coll"), LuaValue.valueOf(collision));
-        table.hashset(LuaValue.valueOf("MaxX"), LuaValue.valueOf(screenWidth));
-        table.hashset(LuaValue.valueOf("dir"), LuaValue.valueOf(angle));
-
-        //pass the table to the function update.lua
-        LuaValue retvals = update_func.call(table); //gets table back out of luafunction
-
-        movementComp.setPosX(retvals.get("PosX").toint());
-
-
-    }
 
 
 
@@ -137,11 +110,6 @@ public class MoveUpdater {
             }
         else
             movementComp.setJumpCounter(retvals.get("Score").toint());
-
-
-
-
-
     }
 
 

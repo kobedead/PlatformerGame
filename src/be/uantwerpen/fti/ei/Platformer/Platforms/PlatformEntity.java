@@ -1,5 +1,4 @@
 package be.uantwerpen.fti.ei.Platformer.Platforms;
-
 import be.uantwerpen.fti.ei.Platformer.Entity;
 
 /**
@@ -8,8 +7,7 @@ import be.uantwerpen.fti.ei.Platformer.Entity;
  */
 public class PlatformEntity extends Entity {
 
-    //unique id for each kind of platform
-    protected int id; //to tell platfroms apart
+
 
     //gets score to add to players score (need to find something better ig)
     public int tempScore;
